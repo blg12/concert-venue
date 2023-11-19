@@ -1,0 +1,5 @@
+spring: 
+  datasource:
+    username: concert_venue
+    password: concert_venue
+    url: jdbc:mysql://localhost:3306/concert_venue
