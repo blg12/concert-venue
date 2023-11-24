@@ -3,8 +3,12 @@ package concert.venue.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Entity
 @Data
@@ -13,5 +17,9 @@ public class Venue {
 	private String venueName;
 	private String state;
 	
-	Set <ConcertVenue> concertVenue = new HashSet<>();
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
+	@ManyToMany(mappedBy = "concerts", cascade = CascadeType.PERSIST)
+	
+	Set <Concert> concerts = new HashSet<>();
 }
