@@ -19,7 +19,7 @@ public class Venue {
 	
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
-	@ManyToMany(mappedBy = "concerts", cascade = CascadeType.PERSIST)
-	
-	Set <Concert> concerts = new HashSet<>();
+	@ManyToMany(mappedBy = "venue", cascade = CascadeType.PERSIST)
+	Set <Concert> concert = new HashSet<>();
 }
+

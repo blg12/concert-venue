@@ -28,15 +28,15 @@ public class Concert {
 	
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
-	@OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "concert", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Ticket ticket;
 	
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
-	@ManyToMany(cascade = CascadeType.PERSIST)
+	@ManyToMany(mappedBy = "concert", cascade = CascadeType.PERSIST)
 	@JoinTable(name = "concert_venue", 
-		joinColumns = @JoinColumn(name = "venueId"),
-		inverseJoinColumns = @JoinColumn(name = "concertId"))
-	private Set <Venue> venues = new HashSet<>();
+	joinColumns = @JoinColumn(name = "concert_id"), 
+	inverseJoinColumns = @JoinColumn(name = "venue_id"))
+	private Set <Venue> venue = new HashSet<>();
 
 }

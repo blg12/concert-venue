@@ -28,9 +28,8 @@ public class Ticket {
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "concertId") 
-	
-	Concert concert;
+	@JoinColumn(name = "concert_id", nullable = false)
+	private Concert concert;
 }
 
 
