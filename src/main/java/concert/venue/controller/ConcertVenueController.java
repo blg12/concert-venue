@@ -18,10 +18,10 @@ public class ConcertVenueController {
 	@Autowired
 	private ConcertVenueService concertVenueService;
 	
-	//@PostMapping("/venue")
-	//public VenueData insertVenue(
-	//		@RequestBody VenueData venueData) {
-	//	log.info("Creating Venue {}", venueData);
-//	}
-
+	@PostMapping("/venue")
+	public VenueData insertVenue(
+	@RequestBody VenueData venueData) {
+	log.info("Creating Venue {}", venueData);
+	return concertVenueService.saveVenue(venueData);
+}
 }
