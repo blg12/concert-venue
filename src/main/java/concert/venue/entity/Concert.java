@@ -21,7 +21,6 @@ import lombok.ToString;
 public class Concert {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
 	private Long concertId;
 	private String concertName;
 	private String genre;
@@ -29,14 +28,14 @@ public class Concert {
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@OneToMany(mappedBy = "concert", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Ticket ticket;
+	private Set <Ticket> tickets = new HashSet<>();
 	
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
-	@ManyToMany(mappedBy = "concert", cascade = CascadeType.PERSIST)
+	@ManyToMany(cascade = CascadeType.PERSIST)
 	@JoinTable(name = "concert_venue", 
 	joinColumns = @JoinColumn(name = "concert_id"), 
 	inverseJoinColumns = @JoinColumn(name = "venue_id"))
-	private Set <Venue> venue = new HashSet<>();
+	private Set <Venue> venues = new HashSet<>();
 
 }
