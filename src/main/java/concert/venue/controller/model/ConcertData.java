@@ -18,11 +18,18 @@ public class ConcertData {
 	private Set <Ticket> tickets = new HashSet<>();
 	private Set <Venue> venues = new HashSet<>();
 
-	Concert(Concert concert) {
+	
+public ConcertData (Concert concert) {
 		concertId = concert.getConcertId();
 		concertName = concert.getConcertName();
 		genre = concert.getGenre();
 		
-		}
-	
+	for(Ticket ticket : concert.getTickets());
+		tickets.add(new Ticket(tickets));
+		
+	for(Venue venue : concert.getVenues());
+		venues.add(new Venue(venues));
 }
+			
+	}
+
