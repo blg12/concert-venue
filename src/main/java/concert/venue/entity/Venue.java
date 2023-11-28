@@ -20,7 +20,7 @@ public class Venue {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long venueId;
 	private String venueName;
-	private String state;
+	private String venueState;
 	
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude

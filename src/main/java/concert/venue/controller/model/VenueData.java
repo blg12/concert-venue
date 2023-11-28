@@ -14,16 +14,18 @@ import lombok.NoArgsConstructor;
 public class VenueData {
 		private Long venueId;
 		private String venueName;
-		private String state;
+		private String venueState;
+		
+		private Concert concert;
 		Set <ConcertData> concerts = new HashSet<>();
 		
 		public VenueData(Venue venue) {
 			venueId = venue.getVenueId();
 			venueName = venue.getVenueName();
-			state = venue.getState();
+			venueState = venue.getVenueState();
 			
-		for(Concert concert : venue.getConcerts());
-			concerts.add(new ConcertData(concerts));
+		//for(Concert concert : venue.getConcerts());
+			//concerts.add(new ConcertData(concerts));
 		
 		}
 

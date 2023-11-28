@@ -14,22 +14,22 @@ import lombok.NoArgsConstructor;
 public class ConcertData {
 	private Long concertId;
 	private String concertName;
-	private String genre;
-	private Set <Ticket> tickets = new HashSet<>();
-	private Set <Venue> venues = new HashSet<>();
+	private String concertGenre;
+	private Set <TicketData> tickets = new HashSet<>();
+	private Set <VenueData> venues = new HashSet<>();
 
 	
 public ConcertData (Concert concert) {
 		concertId = concert.getConcertId();
 		concertName = concert.getConcertName();
-		genre = concert.getGenre();
+		concertGenre = concert.getConcertGenre();
 		
-	for(Ticket ticket : concert.getTickets());
-		tickets.add(new Ticket(tickets));
-		
-	for(Venue venue : concert.getVenues());
-		venues.add(new Venue(venues));
+	for(Ticket ticket : concert.getTickets()) {
+		tickets.add(new TicketData(ticket));
 }
-			
+	for(Venue venue : concert.getVenues()) {
+		venues.add(new VenueData(venue));
+}
+}
 	}
 

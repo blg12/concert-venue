@@ -1,7 +1,6 @@
 package concert.venue.entity;
 
 import java.math.BigDecimal;
-import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -17,9 +16,6 @@ import lombok.ToString;
 @Entity
 @Data
 public class Ticket {
-	
-
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long ticketId;
@@ -31,6 +27,7 @@ public class Ticket {
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@ManyToOne(cascade = CascadeType.ALL)
+	
 	private Concert concert;
 }
 

@@ -23,7 +23,7 @@ public class Concert {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long concertId;
 	private String concertName;
-	private String genre;
+	private String concertGenre;
 	
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
