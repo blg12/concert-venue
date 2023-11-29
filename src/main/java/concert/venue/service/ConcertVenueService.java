@@ -1,5 +1,7 @@
 package concert.venue.service;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
@@ -39,7 +41,6 @@ public class ConcertVenueService {
 		concert.getVenues().add(venue);
 		Venue savedVenue = venueDao.save(venue);
 		return new VenueData(savedVenue);
-		
 	}
 		
 	private void setFieldsInVenue(Venue venue, VenueData venueData) {
@@ -47,7 +48,7 @@ public class ConcertVenueService {
 		venue.setVenueState(venueData.getVenueState());
 		venue.setVenueName(venueData.getVenueName());
 	}
-	//Retrieve - Get Venue
+	
 	private Venue findOrCreateVenue(Long venueId, Long concertId) {
 		Venue venue;
 		
@@ -56,7 +57,7 @@ public class ConcertVenueService {
 		return new Venue();
 			}
 		return findVenueById(venueId, concertId);
-		}
+	}
 
 	private Venue findVenueById(Long venueId, Long concertId) {
 		Venue venue = venueDao.findById(venueId)
@@ -76,9 +77,8 @@ public class ConcertVenueService {
 		+ concertId + " is not a concert of the venue with ID=" + venueId);
 		}
 		return venue;
-		
 	}
-
+	//Create Concert
 	public ConcertData saveConcert(ConcertData concertData) {
 		Concert concert = findOrCreateConcert(concertData.getConcertId());
 		setFieldsInConcert(concert, concertData); 
@@ -102,12 +102,11 @@ public class ConcertVenueService {
 		}
 		return concert;
 	}
-
 	private Concert findConcertById(Long concertId) {
 		return concertDao.findById(concertId)
 				.orElseThrow(() -> new NoSuchElementException("Concert with ID=" + concertId + "was not found."));
 	}
-
+	//Create Ticket
 	public TicketData saveTicket(TicketData ticketData) {
 		Ticket ticket = findOrCreateTicket(ticketData.getTicketId());
 		setFieldsInTicket(ticket, ticketData);
@@ -134,10 +133,34 @@ public class ConcertVenueService {
 
 	private Ticket findTicketById(Long ticketId) {
 		return ticketDao.findById(ticketId)
-				.orElseThrow(() -> new NoSuchElementException("Ticket with ID= " + ticketId + " was not found."));
-		
+				.orElseThrow(() -> new NoSuchElementException
+						("Ticket with ID= " + ticketId + " was not found."));
 		}
+	
+	//(Get)Retrieve All Venues
+	@Transactional(readOnly = true)
+	public List<VenueData> retrieveAllVenues() {
+		List<Venue> venues = venueDao.findAll();
+		List <VenueData> result = new LinkedList<>();
+		
+		for(Venue venue : venues) {
+			result.add(new VenueData(venue));
+		}
+		return result;
 	}
+	//(Get)Retrieve concert by ID
+	@Transactional(readOnly = true)
+	public ConcertData retrieveConcertById(Long concertId) {
+		Concert concert = findConcertById(concertId);
+		return new ConcertData(concert);
+	}
+	//Delete concert by ID
+	@Transactional(readOnly = false)
+	public void deleteConcertById(Long concertId) {
+		Concert concert = findConcertById(concertId);
+		concertDao.delete(concert);
+	}
+}
 
 
 

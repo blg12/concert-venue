@@ -1,9 +1,15 @@
 package concert.venue.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -47,7 +53,46 @@ public class ConcertVenueController {
 		log.info("Creating Ticket {}", ticketData);
 		return concertVenueService.saveTicket(ticketData);
 	}
-	
-	
+	//Retrieve the venues
+	@GetMapping("/venue")
+	public List <VenueData> retrieveAllVenues(){
+		log.info("Retreive all venues.");
+		return concertVenueService.retrieveAllVenues();
+	}
+	//Retrieve the concert by ID
+	@GetMapping("/concert/{concertId}")
+	public ConcertData retrieveConcertById(@PathVariable Long concertId) {
+		log.info("Retrieving concert with ID={}", concertId);
+		return concertVenueService.retrieveConcertById(concertId);
+	}
+	//Update the concert
+	@PutMapping("concert/")
+	public ConcertData updateConcert (@PathVariable Long concertId, 
+			@RequestBody ConcertData concertData) {
+		concertData.setConcertId(concertId);
+		log.info("Updating concert {} ", concertData);
+		return concertVenueService.saveConcert(concertData);
+	}
+	//Delete all concerts
+	@DeleteMapping("/concert")
+	public void deleteAllConcerts() {
+		throw new UnsupportedOperationException(
+				"Deleting all concerts is not allowed.");
+	}
+	//Delete all venues
+	@DeleteMapping("/venue")
+	public void deleteAllVenues() {
+		throw new UnsupportedOperationException(
+				"Deleting all venues is not allowed.");
+	}
+	//Delete concert by ID
+	@DeleteMapping("/concert/{concertId}")
+	public Map<String, String> deleteConcertById(
+			@PathVariable Long concertId) {
+		log.info("Deleting concert with ID={}", concertId);
+		concertVenueService.deleteConcertById(concertId);
+		return Map.of("message", 
+				"Deletion of concert with ID=" + concertId + "was successful.");
 }
 
+}
