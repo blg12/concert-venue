@@ -2,18 +2,19 @@ package concert.venue.service;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import concert.venue.controller.model.ConcertData;
 import concert.venue.controller.model.TicketData;
 import concert.venue.controller.model.VenueData;
-import concert.venue.dao.VenueDao;
 import concert.venue.dao.ConcertDao;
 import concert.venue.dao.TicketDao;
-import concert.venue.dao.ConcertDao;
+import concert.venue.dao.VenueDao;
 import concert.venue.entity.Concert;
 import concert.venue.entity.Ticket;
 import concert.venue.entity.Venue;
@@ -24,11 +25,20 @@ public class ConcertVenueService {
 	@Autowired
 	private VenueDao venueDao;
 	
+	@Autowired
+	private ConcertDao concertDao;
+	
+	@Autowired
+	private TicketDao ticketDao;
+	
 	//Create Venue
 	@Transactional(readOnly = false)
-	public VenueData saveVenue(VenueData venueData) {
-		Venue venue = findOrCreateVenue(venueData.getVenueId());
+	public VenueData saveVenue(Long concertId, VenueData venueData) {
+		Concert concert = findConcertById(concertId);
+		Venue venue = findOrCreateVenue(venueData.getVenueId(),concertId);
 		setFieldsInVenue(venue, venueData);
+		venue.getConcerts().add(concert);
+		concert.getVenues().add(venue);
 		Venue savedVenue = venueDao.save(venue);
 		return new VenueData(savedVenue);
 		
@@ -40,15 +50,14 @@ public class ConcertVenueService {
 		venue.setVenueName(venueData.getVenueName());
 	}
 	//Retrieve - Get Venue
-	private Venue findOrCreateVenue(Long venueId) {
+	private Venue findOrCreateVenue(Long venueId, Long concertId) {
 		Venue venue;
 		
 		if(Objects.isNull(venueId)) {
-			venue = new Venue();
-		} else {
-			venue = findVenueById(venueId); 	
-		}
-		return venue;
+			
+		return new Venue();
+			}
+		return findVenueById(venueId, concertId);
 		}
 
 	private Venue findVenueById(Long venueId) {
@@ -60,7 +69,7 @@ public class ConcertVenueService {
 
 	public ConcertData saveConcert(ConcertData concertData) {
 		Concert concert = findOrCreateConcert(concertData.getConcertId());
-		setFieldsInConcert(concert, concertData);
+		setFieldsInConcert(concert, concertData); 
 		Concert savedConcert = concertDao.save(concert);
 		return new ConcertData(savedConcert);
 	}
@@ -83,7 +92,7 @@ public class ConcertVenueService {
 	}
 
 	private Concert findConcertById(Long concertId) {
-		return ConcertDao.findById(concertId)
+		return concertDao.findById(concertId)
 				.orElseThrow(() -> new NoSuchElementException("Concert with ID=" + concertId + "was not found."));
 	}
 

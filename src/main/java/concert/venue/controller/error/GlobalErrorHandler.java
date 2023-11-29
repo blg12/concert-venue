@@ -53,7 +53,7 @@ public class GlobalErrorHandler {
 	return buildExceptionMessage(ex, HttpStatus.INTERNAL_SERVER_ERROR, webRequest, LogStatus.STACK_TRACE);
 	}
 	
-	//Duplicate ID (409 Error)
+	//Duplicate Name (409 Error)
 	@ExceptionHandler(DuplicateKeyException.class)
 	@ResponseStatus(code = HttpStatus.CONFLICT) 
 	public ExceptionMessage handleDuplicateKeyException(DuplicateKeyException ex, WebRequest webRequest) {

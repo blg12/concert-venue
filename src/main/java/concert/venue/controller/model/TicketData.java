@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TicketData {
 	private Long ticketId;
-	private Long concertId;
 	private BigDecimal seatNumber;
 	private BigDecimal ticketPrice;
 	
