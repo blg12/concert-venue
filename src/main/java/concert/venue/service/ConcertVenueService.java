@@ -120,15 +120,12 @@ public class ConcertVenueService {
 		return ticket;
 	}
 
-	private Ticket findTicketById(Long ticketId, Long concertId) {
-		Ticket ticket = ticketDao.findById(ticketId).orElseThrow(() -> NoSuchElementException("Ticket with ID= " + ticketId + " was not found."));
+	private Ticket findTicketById(Long ticketId) {
+		return ticketDao.findById(ticketId)
+				.orElseThrow(() -> new NoSuchElementException("Ticket with ID= " + ticketId + " was not found."));
 		
-		if(ticket.getConcert().getConcertId() == concertId) {
-			return ticket;
-		} else {
-			throw new IllegalArgumentException("Please enter correct data in the appropriate format");
 		}
 	}
-}
+
 
 
