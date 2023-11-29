@@ -2,10 +2,8 @@ package concert.venue.service;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,10 +58,24 @@ public class ConcertVenueService {
 		return findVenueById(venueId, concertId);
 		}
 
-	private Venue findVenueById(Long venueId) {
-		return venueDao.findById(venueId)
+	private Venue findVenueById(Long venueId, Long concertId) {
+		Venue venue = venueDao.findById(venueId)
 				.orElseThrow(() -> new NoSuchElementException( 
 						"Venue with ID=" + venueId + " was not found."));
+		
+		boolean found = false;
+		
+		for(Concert concert : venue.getConcerts()) {
+			if(concert.getConcertId() == concertId) {
+				found = true;
+				break;
+			}
+		}
+		if(!found) {
+			throw new IllegalArgumentException("The concert with ID="
+		+ concertId + " is not a concert of the venue with ID=" + venueId);
+		}
+		return venue;
 		
 	}
 
