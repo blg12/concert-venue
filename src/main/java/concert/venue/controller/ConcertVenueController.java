@@ -53,7 +53,7 @@ public class ConcertVenueController {
 		log.info("Creating Ticket {}", ticketData);
 		return concertVenueService.saveTicket(ticketData);
 	}
-	//Retrieve the venues
+	//Retrieve all venues
 	@GetMapping("/venue")
 	public List <VenueData> retrieveAllVenues(){
 		log.info("Retreive all venues.");
@@ -92,7 +92,7 @@ public class ConcertVenueController {
 		log.info("Deleting concert with ID={}", concertId);
 		concertVenueService.deleteConcertById(concertId);
 		return Map.of("message", 
-				"Deletion of concert with ID=" + concertId + "was successful.");
+				"Deletion of concert with ID=" +  concertId  + "was successful.");
 }
 
 }
